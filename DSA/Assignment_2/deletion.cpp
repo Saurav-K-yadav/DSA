@@ -19,6 +19,10 @@ void add(Node **head_ref, int new_data)
 void display(Node *node)
 //Prints the linked list
 {
+    if (node == NULL)
+    {
+        cout << "Null linked list" << endl;
+    }
     while (node != NULL)
     {
         cout << node->data << " ";
@@ -54,14 +58,16 @@ void nodeDeleteEnd(Node **head_ref)
     if (temp->next == NULL)
     {
         free(temp);
-        
     }
-    while (temp != NULL && temp->next != NULL)
+    Node *temp2 = NULL;
+    while (temp->next != NULL)
     {
+        temp2 = temp;
         temp = temp->next;
     }
 
     delete temp;
+    temp2->next = NULL;
 }
 
 void search(Node **head_ref, int val)
@@ -82,6 +88,31 @@ void search(Node **head_ref, int val)
         cout << "NOT FOUND !!!" << endl;
 }
 
+void deletespecific(Node **ref, int search_key)
+{
+    Node *temp = *ref;
+    Node *temp2;
+    if (temp == NULL)
+    {
+        cout << "Create a linked list first" << endl;
+    }
+    if (temp->data == search_key)
+    {
+        *ref = temp->next;
+        delete temp;
+    }
+    while (temp != NULL && temp->data != search_key)
+    {
+        temp2 = temp;
+        temp = temp->next;
+    }
+    if (temp == NULL)
+    {
+        cout << "Element to be deleted not found" << endl;
+    }
+    temp2->next = temp->next;
+    delete temp;
+}
 int main()
 {
     Node *head = NULL;
@@ -103,4 +134,8 @@ int main()
 
     nodeDeleteEnd(&head);
     display(head);
+
+    deletespecific(&head, 4);
+    display(head);
+    return 0;
 }
