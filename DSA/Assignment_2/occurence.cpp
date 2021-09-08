@@ -36,34 +36,79 @@ void display(Node *node)
     cout << endl;
 }
 
+void occurencedelete(Node **ref, int key)
+{
+    //delete all the occurence
+    Node *temp = *ref;
+    Node *dummy;
+    while (temp != NULL && temp->data == key)
+    {
+        //If first elements are matched too
+
+        *ref = temp->next;
+        delete temp;
+        temp = *ref;
+    }
+    if (temp == NULL)
+    {
+        return;
+    }
+
+    while (temp->next != NULL)
+    {
+        if (temp->next->data == key)
+        {
+            dummy = temp->next;
+            temp->next = temp->next->next;
+            delete dummy;
+        }
+        else
+        {
+            temp = temp->next;
+        }
+    }
+}
+
 void occurance(Node **head_ref, int num)
 {
+
+    //count the number of the occurence
     Node *temp = *head_ref;
-    int count = 1;
+    int count = 0;
     while (temp != NULL)
     {
         if (temp->data == num)
         {
-            cout << "position " << count << endl;
             count++;
         }
         temp = temp->next;
     }
+    cout << "Total number of occurence : " << count << endl;
+    cout << "Deleting the number " << endl;
+    occurencedelete(head_ref, num);
 }
 
 int main()
 {
     Node *head = NULL;
-    int size = 1;
-    char choice = 'a';
-    while (choice != 'N' && choice != 'n')
+    cout << "Enter the number of elements " << endl;
+    int size;
+    int key;
+    cin >> size;
+    while (size)
     {
-        cout << "Enter number to add";
+        cout << "Enter number to add ";
         int number;
         cin >> number;
         end(&head, number);
-        cout << "Press N to exit";
-        cin >> choice;
+        size--;
     }
+    cout << "Enter the number to find it's occurence " << endl;
+
+    cin >> key;
+    display(head);
+
+    occurance(&head, key);
+    cout << "New list : " << endl;
     display(head);
 }
