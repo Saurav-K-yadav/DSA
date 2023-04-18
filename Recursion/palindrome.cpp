@@ -31,4 +31,4 @@ int main()
         cout << "It is not palindrome";
     }
     return 0;
-}
+}  
